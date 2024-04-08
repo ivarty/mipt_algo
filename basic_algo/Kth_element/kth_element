@@ -1,0 +1,32 @@
+#ifndef KTHELEMENT
+#define KTHELEMENT
+template <typename T>
+T* Partition(T* begin, T* end) {
+  T* pivot_point = begin;
+  T pivot_value = *begin;
+  for (T* i = begin + 1; i < end; ++i) {
+    if (*i < pivot_value) {
+      ++pivot_point;
+      T tmp = *i;
+      *i = *pivot_point;
+      *pivot_point = tmp;
+    }
+  }
+  T tmp = *pivot_point;
+  *pivot_point = *begin;
+  *begin = tmp;
+  return pivot_point;
+}
+template <typename T>
+void KthElement(T* begin, T* kth, T* end) {
+  if (end < begin) {
+    return;
+  }
+  T* place = Partition(begin, end);
+  if (place < kth) {
+    KthElement(place + 1, kth, end);
+  } else if (kth < place) {
+    KthElement(begin, kth, place + 1);
+  }
+}
+#endif
